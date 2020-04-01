@@ -100,6 +100,12 @@ function App() {
         <h2>An experiment to analyse how a virus spread over a community</h2>
       </div>
       <div className={styles.simulation}>
+        <div className={ styles.samples }>
+          <span className={ styles.sampleSuspectible }>Suspectible</span>
+          <span className={ styles.sampleInfected }>Infected</span>
+          <span className={ styles.sampleRecovered }>Recovered</span>
+          <i>Click on a building to lock it (quarantine)</i>
+        </div>
         {!loading && (
           <Graph
             width={
@@ -307,8 +313,8 @@ function App() {
             simulations.
           </p>
           <p>
-            <a href="https://github.com/fatiherikli/post-truth/coronavirus-simulation">
-              https://github.com/fatiherikli/post-truth/coronavirus-simulation
+            <a href="https://github.com/fatiherikli/coronavirus-simulation">
+              https://github.com/fatiherikli/coronavirus-simulation
             </a>
           </p>
 

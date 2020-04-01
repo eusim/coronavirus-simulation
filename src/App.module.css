@@ -97,3 +97,56 @@ pre {
   padding: 1em;
 }
 
+.samples {
+
+}
+
+.samples span {
+  position: absolute;
+  margin-top: 1em;
+}
+
+.samples span:before {
+  position: absolute;
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: gray;
+  border-radius: 50%;
+  margin-top: 0.25em;
+  margin-left: -18px;
+}
+
+.samples .sampleSuspectible {
+  color: gray;
+  margin-left: -21.8em;
+}
+
+.samples .sampleSuspectible:before {
+  background: #e5dfdf;
+}
+
+.samples .sampleInfected {
+  color: gray;
+  margin-left: -13.5em;
+}
+
+.samples .sampleInfected:before {
+  background: #ff677d;
+}
+
+.samples .sampleRecovered {
+  margin-left: -7em;
+  color: gray;
+}
+
+.samples .sampleRecovered:before {
+  background: #75daad;
+}
+
+.samples i {
+  position: absolute;
+  color: gray;
+  margin-top: 0.9em;
+  margin-left: 5.5em;
+}
