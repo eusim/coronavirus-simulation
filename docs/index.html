@@ -1,5 +1,77 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="google-site-verification" content="cWnIgnYJ9UyQZYimSJVqo9SaA1NUHKj-Zstn12W4KQA" /><link rel="icon" href="/coronavirus-simulation/favicon.ico"/><meta name="theme-color" content="#000000"/><meta name="description" content="An experiment to analyse how a virus spread over a community"/><link rel="apple-touch-icon" href="/coronavirus-simulation/logo192.png"/><link rel="manifest" href="/coronavirus-simulation/manifest.json"/><title>Simulating coronavirus with the SIR model</title><link href="/coronavirus-simulation/static/css/main.47e472f4.chunk.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><script>!function(e){function r(r){for(var n,i,a=r[0],l=r[1],f=r[2],c=0,s=[];c<a.length;c++)i=a[c],Object.prototype.hasOwnProperty.call(o,i)&&o[i]&&s.push(o[i][0]),o[i]=0;for(n in l)Object.prototype.hasOwnProperty.call(l,n)&&(e[n]=l[n]);for(p&&p(r);s.length;)s.shift()();return u.push.apply(u,f||[]),t()}function t(){for(var e,r=0;r<u.length;r++){for(var t=u[r],n=!0,a=1;a<t.length;a++){var l=t[a];0!==o[l]&&(n=!1)}n&&(u.splice(r--,1),e=i(i.s=t[0]))}return e}var n={},o={1:0},u=[];function i(r){if(n[r])return n[r].exports;var t=n[r]={i:r,l:!1,exports:{}};return e[r].call(t.exports,t,t.exports,i),t.l=!0,t.exports}i.m=e,i.c=n,i.d=function(e,r,t){i.o(e,r)||Object.defineProperty(e,r,{enumerable:!0,get:t})},i.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},i.t=function(e,r){if(1&r&&(e=i(e)),8&r)return e;if(4&r&&"object"==typeof e&&e&&e.__esModule)return e;var t=Object.create(null);if(i.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:e}),2&r&&"string"!=typeof e)for(var n in e)i.d(t,n,function(r){return e[r]}.bind(null,n));return t},i.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return i.d(r,"a",r),r},i.o=function(e,r){return Object.prototype.hasOwnProperty.call(e,r)},i.p="/coronavirus-simulation/";var a=this.webpackJsonpmiasto=this.webpackJsonpmiasto||[],l=a.push.bind(a);a.push=r,a=a.slice();for(var f=0;f<a.length;f++)r(a[f]);var p=l;t()}([])</script><script src="/coronavirus-simulation/static/js/2.2695d89b.chunk.js"></script><script src="/coronavirus-simulation/static/js/main.32b7f127.chunk.js"></script><!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162516867-1"></script>
+<noscript>
+Simulating coronavirus with the SIR model
+An experiment to analyse how a virus spread over a community
+  What is this?
+
+This is a simulation of how a virus spread over the population. The simulation is heavily inspired by the SIR model. SIR is a technique used to simplify the mathematical modelling of infectious disase.
+
+In the SIR model, we have three different states of each agent (a person). The first state isSUSCEPTIBLE, second one is SICK, and the last one is RECOVERED. We have also a DEAD state in this simulation.
+How does it work?
+
+Every agent starts with the `SUSCEPTIBLE` state in the simulation, except a few of them. Some of the agents are on the `SICK` state at the very beginning. Over the time, sick agents spread the virus to rest of the population and the other agents get sick as well. After the infection, they switch into a recovered or a dead state based on some probabilistic values.
+
+The probabilistic values are defined in a markov-chain concept. Markov chain is a stochastic model to describe a sequence of possible events that can occur in the future.
+How does a probabilistic model look like?
+
+We're using a markov graph to define a probabilistic transition. We can simply say that markov chain is a graph of all the possible state transitions of an individual node.
+
+In a infectious disaese case, we can use markov chains to define the probabilistic chain of an person to be inftected, to be recovered, or to be dead. Furthermore, we can also define the possible travel route of an agent by using the same technique.
+How can we define a probabilistic model of an infecitious disease?
+
+As I previously mentioned, we can use the SIR model to set up the simulation, and we can use markov chains to define probabilistic model of an infectious disaese.
+
+I would like to give a disclaimer that, I'm just an open-source developer who loves building data visualizations and simulations, I don't have a background of Epidemiology or other related stuff. Please don't take my assumptions seriously.
+
+Here's the state transition map of an agent over the time.
+
+const SIR_TRANSITION_STATE = {
+  [SUSPECTIBLE]: [
+    [1, SUSPECTIBLE],
+  ],
+  [RECOVERED]: [
+    [1, RECOVERED],
+  ],
+  [SICK]: [
+    [0.995, SICK],
+    [0.004, RECOVERED],
+    [0.001, DEAD],
+  ],
+  [DEAD]: [
+    [1, DEAD],
+  ],
+};
+
+Simulation's clock ticks on each second. On each tick, all the agents are subject to that transition map. As you can see on that object, we have defined states as keys, and possible values of that specific state. For example, a susceptible person will be always suspectible, there's no any state change for that state, yet. But for a sick agent, there are two more possible states different than it's actual state. So the options are; staying as sick until the next state transition, being recovered, or being dead. The values defined before the next state is the probabilistic value.
+
+const DISEASE_SPREAD_TRANSITION = {
+  [SUSPECTIBLE]: [
+    [0.3, SICK],
+    [0.7, SUSPECTIBLE],
+  ],
+  [RECOVERED]: [
+    [1, RECOVERED],
+  ],
+  [SICK]: [
+    [1, SICK],
+  ],
+  [DEAD]: [
+    [1, DEAD],
+  ],
+};
+
+The previous transition map was for a person who has no any interaction with a sick person. When an agent meets with a sick person, the possibility of getting sick is different. As you can see on this map, a susceptible person will get sick by the possibility of %30.
+
+Question: In that map, people who already recovered from the virus develop an immunity and don't get sick again. How could we define the probabilistic map if the disease was super infectious and people who recovered don't gain any immunity?
+Other simulations
+
+If you liked that stuff, you can explore other simulations that I created in the past.
+
+    Post-truth: How a disinformation spreads over a community
+    Language-evolution: Simulation of the evolution of languages
+    Crowd-of-istanbul: Crowd simulation of Istanbul streets
+</noscript>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162516867-1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
