@@ -16,13 +16,15 @@ const INITIAL_SIMULATION_STATE = {
   hospitals: 1,
   supermarkets: 3,
   temples: 1,
-  initialSickAgents: 1
+  initialSickAgents: 1,
 };
 
 const INITIAL_GRAPH = getInitialGraph(INITIAL_SIMULATION_STATE);
 
 function App() {
-  const [simulationState, setSimulationState] = useState(INITIAL_SIMULATION_STATE);
+  const [simulationState, setSimulationState] = useState(
+    INITIAL_SIMULATION_STATE
+  );
   const [nodes, setNodes] = useState(INITIAL_GRAPH.nodes);
   const [edges, setEdges] = useState(INITIAL_GRAPH.edges);
   const [historicalSickCount, setHistoricalSickCount] = useState([]);
@@ -68,7 +70,7 @@ function App() {
     setLoading(false);
   }, [loading]);
 
-  const onNodeClick = nodeId => {
+  const onNodeClick = (nodeId) => {
     return () => {
       const node = nodes.find(({ id }) => nodeId === id);
       if (node.type !== "venue") {
@@ -78,7 +80,7 @@ function App() {
     };
   };
 
-  const onSettingChange = key => event => {
+  const onSettingChange = (key) => (event) => {
     setSimulationState({ ...simulationState, [key]: event.target.value });
   };
 
@@ -100,17 +102,17 @@ function App() {
         <h2>An experiment to analyse how a virus spread over a community</h2>
       </div>
       <div className={styles.simulation}>
-        <div className={ styles.samples }>
-          <span className={ styles.sampleSuspectible }>Suspectible</span>
-          <span className={ styles.sampleInfected }>Infected</span>
-          <span className={ styles.sampleRecovered }>Recovered</span>
+        <div className={styles.samples}>
+          <span className={styles.sampleSusceptible}>Susceptible</span>
+          <span className={styles.sampleInfected}>Infected</span>
+          <span className={styles.sampleRecovered}>Recovered</span>
           <i>Click on a building to lock it (quarantine)</i>
         </div>
         {!loading && (
           <Graph
             width={
               Math.round(
-                (nodes.filter(({ type }) => type === "venue").length / 6)
+                nodes.filter(({ type }) => type === "venue").length / 6
               ) * 110
             }
             height={700}
@@ -141,7 +143,7 @@ function App() {
             data={[
               { color: "red", points: historicalSickCount },
               { color: "green", points: historicalRecoveredCount },
-              { color: "black", points: historicalDeadCount }
+              { color: "black", points: historicalDeadCount },
             ]}
           />
         </div>
@@ -156,8 +158,17 @@ function App() {
             onRestartButtonClick={onRestartButtonClick}
           />
         </div>
+        
       </div>
       <div className={styles.pageInfo}>
+      <ins
+          className="adsbygoogle"
+          style={{ display: 'block', textAlign: 'center' }}
+          data-ad-layout="in-article"
+          data-ad-format="fluid"
+          data-ad-client="ca-pub-5587173855104127"
+          data-ad-slot="8487596319"
+        ></ins>
         <div className={styles.section}>
           <h1>What is this?</h1>
           <p>
@@ -168,13 +179,13 @@ function App() {
           <p>
             In the SIR model, we have three different states of each agent (a
             person). The first state is
-            <i> SUSPECTIBLE</i>, second one is <i> SICK</i>, and the last one is
+            <i> SUSCEPTIBLE</i>, second one is <i> SICK</i>, and the last one is
             <i> RECOVERED</i>. We have also a <i> DEAD</i> state in this
             simulation.
           </p>
           <h1>How does it work?</h1>
           <p>
-            Every agent starts with the `SUSPECTIBLE` state in the simulation,
+            Every agent starts with the `SUSCEPTIBLE` state in the simulation,
             except a few of them. Some of the agents are on the `SICK` state at
             the very beginning. Over the time, sick agents spread the virus to
             rest of the population and the other agents get sick as well. After
@@ -197,7 +208,7 @@ function App() {
               style={{
                 position: "absolute",
                 border: 0,
-                marginLeft: "-4em"
+                marginLeft: "-4em",
               }}
               width={970}
               height={650}
@@ -228,8 +239,8 @@ function App() {
           </p>
           <p>Here's the state transition map of an agent over the time.</p>
           <pre>{`const SIR_TRANSITION_STATE = {
-  [SUSPECTIBLE]: [
-    [1, SUSPECTIBLE],
+  [SUSCEPTIBLE]: [
+    [1, SUSCEPTIBLE],
   ],
   [RECOVERED]: [
     [1, RECOVERED],
@@ -247,17 +258,17 @@ function App() {
             Simulation's clock ticks on each second. On each tick, all the
             agents are subject to that transition map. As you can see on that
             object, we have defined states as keys, and possible values of that
-            specific state. For example, a suspectible person will be always
-            suspectible, there's no any state change for that state, yet. But
+            specific state. For example, a SUSCEPTIBLE person will be always
+            SUSCEPTIBLE, there's no any state change for that state, yet. But
             for a sick agent, there are two more possible states different than
             it's actual state. So the options are; staying as sick until the
             next state transition, being recovered, or being dead. The values
             defined before the next state is the probabilistic value.
           </p>
           <pre>{`const DISEASE_SPREAD_TRANSITION = {
-  [SUSPECTIBLE]: [
+  [SUSCEPTIBLE]: [
     [0.3, SICK],
-    [0.7, SUSPECTIBLE],
+    [0.7, SUSCEPTIBLE],
   ],
   [RECOVERED]: [
     [1, RECOVERED],
@@ -273,7 +284,7 @@ function App() {
             The previous transition map was for a person who has no any
             interaction with a sick person. When an agent meets with a sick
             person, the possibility of getting sick is different. As you can see
-            on this map, a suspectible person will get sick by the possibility
+            on this map, a susceptible person will get sick by the possibility
             of %30.
           </p>
           <p>

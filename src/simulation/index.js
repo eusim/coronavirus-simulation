@@ -1,10 +1,6 @@
 import { randomSample, distance } from '../utils';
 
-import {
-  IDLE, FORWARDED, IGNORED,
-  VENUE, AGENT,
-  SUSPECTIBLE, SICK, RECOVERED, DEAD,
-} from '../constants';
+import { AGENT, SUSCEPTIBLE, SICK, DEAD } from '../constants';
 
 import { getNextMarkovStateForAgent, STAY, BASE, applySIRModel } from './markov';
 import { applyFixedNodeGrid } from './grid';
@@ -76,7 +72,7 @@ function getInitialGraph(simulationState) {
           base: venueId,
           id: agentId,
           size: 1,
-          state: SUSPECTIBLE,
+          state: SUSCEPTIBLE,
         });
         edges.push({
           'source': agentId,

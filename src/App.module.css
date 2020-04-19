@@ -117,12 +117,12 @@ pre {
   margin-left: -18px;
 }
 
-.samples .sampleSuspectible {
+.samples .sampleSusceptible {
   color: gray;
   margin-left: -21.8em;
 }
 
-.samples .sampleSuspectible:before {
+.samples .sampleSusceptible:before {
   background: #e5dfdf;
 }
 

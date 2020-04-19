@@ -1,6 +1,5 @@
 import {
-  VENUE, AGENT,
-  SUSPECTIBLE, SICK, RECOVERED, DEAD,
+  SUSCEPTIBLE, SICK, RECOVERED, DEAD,
 } from '../constants';
 
 import { randomChoice, weightedRandom } from '../utils';
@@ -9,8 +8,8 @@ export const STAY = 'stay';
 export const BASE = 'base';
 
 const SIR_TRANSITION_STATE = {
-  [SUSPECTIBLE]: [
-    [1, SUSPECTIBLE],
+  [SUSCEPTIBLE]: [
+    [1, SUSCEPTIBLE],
   ],
   [RECOVERED]: [
     [1, RECOVERED],
@@ -26,9 +25,9 @@ const SIR_TRANSITION_STATE = {
 };
 
 const DISEASE_SPREAD_TRANSITION = {
-  [SUSPECTIBLE]: [
+  [SUSCEPTIBLE]: [
     [0.3, SICK],
-    [0.7, SUSPECTIBLE],
+    [0.7, SUSCEPTIBLE],
   ],
   [RECOVERED]: [
     [1, RECOVERED],
