@@ -98,6 +98,7 @@ function App() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
+        <a href="/" style={{ color: 'gray', textDecoration: 'none' }}>↵ Other simulations</a>
         <h3>Simulating coronavirus with the SIR model</h3>
         <h2>An experiment to analyse how a virus spread over a community</h2>
       </div>
