@@ -100,10 +100,22 @@ export default function Node({
           y={7}
           fontSize={16}
         >
-          {ICONS[node.venue]}
+           {ICONS[node.venue]} 
         </text>
-      ) : node.state === 3 ? (
-        <text onClick={onNodeClick(node.id)} x={-8} y={7} fontSize={16}>
+      ) : node.state === SUSCEPTIBLE ? (
+        <text onClick={onNodeClick(node.id)} x={-8} y={7} fontSize={12}>
+          😶
+        </text>
+      ) : node.state === SICK ? (
+        <text onClick={onNodeClick(node.id)} x={-8} y={7} fontSize={12}>
+          🥵
+        </text>
+      ) : node.state === RECOVERED ? (
+        <text onClick={onNodeClick(node.id)} x={-8} y={7} fontSize={12}>
+          🤩
+        </text>
+      ) : node.state === DEAD ? (
+        <text onClick={onNodeClick(node.id)} x={-8} y={7} fontSize={12}>
           💀
         </text>
       ) : (
